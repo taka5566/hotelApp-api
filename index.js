@@ -226,7 +226,8 @@ app.get('/bookings', async (req,res) => {
     res.json( await Booking.find({user:userData.id}).populate('place'))
 })
 
-// app.listen('https://hotelapp-api.onrender.com');
-app.listen('https://hotelapp-api.onrender.com', () => {
-  console.log('Server is listening on https://hotelapp-api.onrender.com');
+const port = process.env.PORT || 4000; 
+
+app.listen(port, () => {
+  console.log(`Server is listening on port ${port}`);
 });
