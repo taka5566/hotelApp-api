@@ -21,7 +21,7 @@ app.use(cookieParser());
 app.use('/uploads', express.static(__dirname + '/uploads'));
 app.use(cors({
     credentials: true,
-    origin: 'https://hotelApp-api.onrender.com',
+    origin: 'https://hotelApp.onrender.com',
 }));
 
 mongoose.connect(process.env.MONGO_URL);
@@ -226,5 +226,5 @@ app.get('/bookings', async (req,res) => {
     res.json( await Booking.find({user:userData.id}).populate('place'))
 })
 
-app.listen(4000);
+app.listen('https://hotelApp-api.onrender.com');
 
