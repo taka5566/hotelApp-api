@@ -27,15 +27,15 @@ app.use(cors({
 mongoose.connect(process.env.MONGO_URL);
 
 function getUserDataFromReq(req) {
-  return new Promise((resolve,reject) => {
-
-    jwt.verify(req.cookies.token, jwtSecret, {}, async (err, userData)=>{
-    if (err) throw err;
-    resolve (userData);
-  })
-  })
-;
-
+  return new Promise((resolve, reject) => {
+    jwt.verify(req.cookies.token, jwtSecret, {}, (err, userData) => {
+      if (err) {
+        reject(new Error('Invalid token'));
+      } else {
+        resolve(userData);
+      }
+    });
+  });
 }
 
 app.get("/", (req, res) => {
