@@ -22,6 +22,7 @@ app.use('/uploads', express.static(__dirname + '/uploads'));
 app.use(cors({
     credentials: true,
     origin: 'https://hotelapp-5zvs.onrender.com',
+    methods:["POST","GET"]
 }));
 
 mongoose.connect(process.env.MONGO_URL);
