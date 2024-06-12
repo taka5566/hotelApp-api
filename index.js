@@ -70,22 +70,25 @@ app.post('/register', async (req,res) => {
 
 });
 
-app.post('/login', async (req,res)=>{
-  const {email,password} = req.body;
-  const userDoc = await User.findOne({email});
+app.post('/login', async (req, res) => {
+  const { email, password } = req.body;
+  const userDoc = await User.findOne({ email });
   if (userDoc) {
     const passOk = bcrypt.compareSync(password, userDoc.password);
     if (passOk) {
-      jwt.sign({email:userDoc.email,
-                id:userDoc._id,
-                }, 
-                jwtSecret, {}, (err,token) => {
-        if (err)  throw err;
-        res.cookie('token',token).json(userDoc);
-
+      const token = jwt.sign({ userId: userDoc._id }, process.env.JWT_SECRET, {
+        expiresIn: '15d'
       });
-      
-    }else {
+
+      res.cookie('jwt', token, {
+        maxAge: 15 * 24 * 60 * 60 * 1000, // MS
+        httpOnly: true,
+        sameSite: 'strict',
+        secure: process.env.NODE_ENV !== 'development'
+      });
+
+      res.json(userDoc);
+    } else {
       res.status(422).json('pw not ok');
     }
   } else {
