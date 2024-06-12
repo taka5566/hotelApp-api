@@ -14,7 +14,7 @@ const multer = require('multer');
 const fs = require('fs');
 
 const bcryptSalt = bcrypt.genSaltSync(10);
-const jwtSecret = 'asdgfawergreg';
+const jwtSecret = process.env.JWT_SECRET;
 
 app.use(express.json());
 app.use(cookieParser());
